@@ -13,3 +13,4 @@ Con ese propósito se seguirán los siguientes pasos:
 
 ## Recursos
 * [Leer xml](http://javiergarbedo.es/53-apuntes-java/xml/247-ejemplo-de-lectura-de-fichero-xml-usando-dom)
+* [Leer xml2](http://www.novanebula.net/blog/archives/144-Analizar-XML-con-Java.html)
