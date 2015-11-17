@@ -47,33 +47,19 @@ public class InfoProblema {
 			NodeList listaVertices = raiz.getElementsByTagName("vertex");
 			// Recorrer la lista de empleados
 			for (int i = 0; i < listaVertices.getLength(); i++) {
+				matrizDistancias.add(new ArrayList<Double>());
 				// Obtener de la lista un empleado tras otro
 				Node vertice = listaVertices.item(i);
-				System.out.println("Vértice " + i);
-				System.out.println("==========");
-
 				// Obtener la lista de los datos que contiene ese empleado
 				NodeList distanciasVertice = vertice.getChildNodes();
 				// Recorrer la lista de los datos que contiene el empleado
 				for (int j = 0; j < distanciasVertice.getLength(); j++) {
-					// Obtener de la lista de datos un dato tras otro
-					Node distancia = distanciasVertice.item(j);
-
-					// Comprobar que el dato se trata de un nodo de tipo Element
-					if (distancia.getNodeType() == Node.ELEMENT_NODE) {
-						// Mostrar el nombre del tipo de dato
-						System.out.print(distancia.getNodeName() + ": ");
-						// El valor está contenido en un hijo del nodo Element
-						Node datoContenido = distancia.getFirstChild();
-						// Mostrar el valor contenido en el nodo que debe ser de
-						// tipo Text
-						if (datoContenido != null
-								&& datoContenido.getNodeType() == Node.TEXT_NODE)
-							System.out.println(datoContenido.getNodeValue());
+					if(distanciasVertice.item(j).getNodeType() == Node.ELEMENT_NODE){
+						Element distancia = (Element)distanciasVertice.item(j);
+						if(distancia.hasAttribute("cost"))
+							matrizDistancias.get(i).add(Double.parseDouble(distancia.getAttribute("cost")));
 					}
 				}
-				// Se deja un salto de línea de separación entre cada empleado
-				System.out.println();
 			}
 
 		} catch (SAXException ex) {
