@@ -54,10 +54,12 @@ public class InfoProblema {
 				NodeList distanciasVertice = vertice.getChildNodes();
 				// Recorrer la lista de los datos que contiene el empleado
 				for (int j = 0; j < distanciasVertice.getLength(); j++) {
-					if(distanciasVertice.item(j).getNodeType() == Node.ELEMENT_NODE){
-						Element distancia = (Element)distanciasVertice.item(j);
-						if(distancia.hasAttribute("cost"))
-							matrizDistancias.get(i).add(Double.parseDouble(distancia.getAttribute("cost")));
+					if (distanciasVertice.item(j).getNodeType() == Node.ELEMENT_NODE) {
+						Element distancia = (Element) distanciasVertice.item(j);
+						if (distancia.hasAttribute("cost"))
+							matrizDistancias.get(i).add(
+									Double.parseDouble(distancia
+											.getAttribute("cost")));
 					}
 				}
 			}
