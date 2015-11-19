@@ -19,14 +19,14 @@ public class InfoProblema {
 	 * Atributos
 	 */
 
-	private ArrayList<ArrayList<Double>> matrizDistancias;
+	private MatrizDistancias matrizDistancias;
 
 	/*
 	 * Constructor
 	 */
 
 	public InfoProblema() {
-		matrizDistancias = new ArrayList<ArrayList<Double>>();
+		matrizDistancias = new MatrizDistancias();
 	}
 
 	/*
@@ -47,7 +47,7 @@ public class InfoProblema {
 			NodeList listaVertices = raiz.getElementsByTagName("vertex");
 			// Recorrer la lista de empleados
 			for (int i = 0; i < listaVertices.getLength(); i++) {
-				matrizDistancias.add(new ArrayList<Double>());
+				matrizDistancias.getMatrizDistancias().add(new ArrayList<Double>());
 				// Obtener de la lista un empleado tras otro
 				Node vertice = listaVertices.item(i);
 				// Obtener la lista de los datos que contiene ese empleado
@@ -57,7 +57,7 @@ public class InfoProblema {
 					if (distanciasVertice.item(j).getNodeType() == Node.ELEMENT_NODE) {
 						Element distancia = (Element) distanciasVertice.item(j);
 						if (distancia.hasAttribute("cost"))
-							matrizDistancias.get(i).add(
+							matrizDistancias.getMatrizDistancias().get(i).add(
 									Double.parseDouble(distancia
 											.getAttribute("cost")));
 					}
@@ -86,9 +86,9 @@ public class InfoProblema {
 	 * Mostrar matriz de distancias
 	 */
 	public void mostrarMatriz() {
-		for (int i = 0; i < matrizDistancias.size(); i++) {
-			for (int j = 0; j < matrizDistancias.get(i).size(); j++) {
-				System.out.println(matrizDistancias.get(i).get(j) + " ");
+		for (int i = 0; i < matrizDistancias.getMatrizDistancias().size(); i++) {
+			for (int j = 0; j < matrizDistancias.getMatrizDistancias().get(i).size(); j++) {
+				System.out.println(matrizDistancias.getMatrizDistancias().get(i).get(j) + " ");
 			}
 			System.out.println("");
 		}
@@ -97,7 +97,7 @@ public class InfoProblema {
 	/**
 	 * @return the matrizDistancias
 	 */
-	public ArrayList<ArrayList<Double>> getMatrizDistancias() {
+	public MatrizDistancias getMatrizDistancias() {
 		return matrizDistancias;
 	}
 
@@ -106,7 +106,7 @@ public class InfoProblema {
 	 *            the matrizDistancias to set
 	 */
 	public void setMatrizDistancias(
-			ArrayList<ArrayList<Double>> matrizDistancias) {
+			MatrizDistancias matrizDistancias) {
 		this.matrizDistancias = matrizDistancias;
 	}
 }
