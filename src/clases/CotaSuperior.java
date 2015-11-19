@@ -22,27 +22,32 @@ public class CotaSuperior {
 
 	public void calcularCota() {
 		int indiceVerticeActual = 0;
-		double minimoCosteNoVisitado = 100000000;
+		int indiceAuxiliar = indiceVerticeActual;
+		double minimoCosteNoVisitado = 9999;
 		ArrayList<Boolean> visitados = new ArrayList<Boolean>();
 		for (int i = 0; i < infoProblema.getDistancias().getMatrizDistancias()
 				.size(); i++) {
 			visitados.add(false);
 		}
+		visitados.set(indiceVerticeActual, true);
+		mejorTour.getTour().add(indiceVerticeActual);
 		for (int i = 0; i < infoProblema.getDistancias().getMatrizDistancias()
-				.size(); i++) {
-			minimoCosteNoVisitado = 100000000;
+				.size()-1; i++) {
+			minimoCosteNoVisitado = 9999;
 			for (int j = 0; j < infoProblema.getDistancias()
 					.getMatrizDistancias().get(i).size(); j++) {
-				if (infoProblema.getDistancias().getMatrizDistancias().get(i)
+				if (infoProblema.getDistancias().getMatrizDistancias().get(indiceVerticeActual)
 						.get(j) < minimoCosteNoVisitado
-						&& visitados.get(indiceVerticeActual) == false) {
+						&& visitados.get(j) == false) {
 					minimoCosteNoVisitado = infoProblema.getDistancias().getMatrizDistancias().get(i)
 							.get(j);
-					indiceVerticeActual = j;
+					indiceAuxiliar = j;
 				}
-				mejorTour.getTour().add(indiceVerticeActual);
-				mejorValorObjetivo = mejorValorObjetivo + minimoCosteNoVisitado;
 			}
+			indiceVerticeActual = indiceAuxiliar;
+			mejorTour.getTour().add(indiceVerticeActual);
+			mejorValorObjetivo = mejorValorObjetivo + minimoCosteNoVisitado;
+			visitados.set(indiceVerticeActual, true);
 		}
 		System.out.println("Valor objetivo: " + mejorValorObjetivo);
 		System.out.println("Tour");

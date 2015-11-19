@@ -55,10 +55,10 @@ public class InfoProblema {
 				// Obtener la lista de los datos que contiene ese empleado
 				NodeList distanciasVertice = vertice.getChildNodes();
 				// Recorrer la lista de los datos que contiene el empleado
-				for (int j = 0; j < distanciasVertice.getLength(); j++) {
-					if (j == i)
-						matrizDistancias.getMatrizDistancias().get(i).add(0.0);
-					else {
+				for (int j = 0; j < listaVertices.getLength(); j++) {
+					if (j == i){
+						matrizDistancias.getMatrizDistancias().get(i).add(9999.0);
+					}else {
 						if (distanciasVertice.item(j).getNodeType() == Node.ELEMENT_NODE) {
 							Element distancia = (Element) distanciasVertice
 									.item(j);
@@ -98,7 +98,7 @@ public class InfoProblema {
 		for (int i = 0; i < matrizDistancias.getMatrizDistancias().size(); i++) {
 			for (int j = 0; j < matrizDistancias.getMatrizDistancias().get(i)
 					.size(); j++) {
-				System.out.println(matrizDistancias.getMatrizDistancias()
+				System.out.print(matrizDistancias.getMatrizDistancias()
 						.get(i).get(j)
 						+ " ");
 			}
