@@ -1,19 +1,37 @@
+/**
+ * File name:InfoProblema.java
+ * Package name: clases
+ * Proyect name: cc_travelling_salesman
+ */
 package clases;
 
 import java.util.ArrayList;
 
 public class MejorTour {
-
+	/**
+	 * Atributos
+	 */
 	private ArrayList<Integer> tour;
 	
+	/**
+	 * Constructor: MejorTour
+	 */
 	public MejorTour(){
 		setTour(new ArrayList<Integer>());
 	}
 
+	/**
+	 * mostrarTour
+	 */
 	public void mostrarTour(){
-		for(int i = 0; i < tour.size(); i++)
-			System.out.print(tour.get(i)+"->");
+		for(int i = 0; i < tour.size(); i++) {
+			if(i == tour.size()-1)
+				System.out.print(tour.get(i));
+			else
+				System.out.print(tour.get(i)+"->");
+		}
 	}
+	
 	/**
 	 * @return the tour
 	 */

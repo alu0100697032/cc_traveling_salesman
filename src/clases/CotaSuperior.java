@@ -1,41 +1,57 @@
+/**
+ * File name:InfoProblema.java
+ * Package name: clases
+ * Proyect name: cc_travelling_salesman
+ */
 package clases;
 
 import java.util.ArrayList;
+import global.VariablesGlobales;
 
 public class CotaSuperior {
-
-	/*
+	/**
 	 * Atributos
 	 */
 	private InfoProblema infoProblema;
 	private MejorTour mejorTour;
-	private double mejorValorObjetivo; // valor del punto final al inicial
+	private double mejorValorObjetivo; // valor de la cota
 
-	/*
-	 * Constructor
+	/**
+	 * Constructor: CotaSuperior
 	 */
 	public CotaSuperior(String nombreFichero) {
 		infoProblema = new InfoProblema(nombreFichero);
 		mejorTour = new MejorTour();
 		mejorValorObjetivo = 0;
 	}
-
+	/**
+	 * calcularCota
+	 */
 	public void calcularCota() {
+		//Comenzamos en el vertice 0, vertice que estamos evaluando
 		int indiceVerticeActual = 0;
+		// Para guardar la posicion del vertice siguiente que mejora la distancia minima actual
 		int indiceAuxiliar = indiceVerticeActual;
-		double minimoCosteNoVisitado = 9999;
+		// Al final indicara la distancia de coste minimo al siguiente vertice del vertice evaluado 
+		double minimoCosteNoVisitado = VariablesGlobales.MAXDISTANCE;
+		// Lista que indica si el nodo ha sido visitado o no
 		ArrayList<Boolean> visitados = new ArrayList<Boolean>();
+		// Ningun vertice inicialmente esta visitado...
 		for (int i = 0; i < infoProblema.getDistancias().getMatrizDistancias()
 				.size(); i++) {
 			visitados.add(false);
 		}
+		//Menos el actual
 		visitados.set(indiceVerticeActual, true);
+		//Lo metemos en el recorrido del tour
 		mejorTour.getTour().add(indiceVerticeActual);
+		//Recorremos los vertices y vamos comprobando cual es el mas proximo a este 
 		for (int i = 0; i < infoProblema.getDistancias().getMatrizDistancias()
 				.size()-1; i++) {
-			minimoCosteNoVisitado = 9999;
+			minimoCosteNoVisitado = VariablesGlobales.MAXDISTANCE;
 			for (int j = 0; j < infoProblema.getDistancias()
 					.getMatrizDistancias().get(i).size(); j++) {
+				// Si mejora guardamos la distancia y el indice del vertice
 				if (infoProblema.getDistancias().getMatrizDistancias().get(indiceVerticeActual)
 						.get(j) < minimoCosteNoVisitado
 						&& visitados.get(j) == false) {
@@ -44,35 +60,16 @@ public class CotaSuperior {
 					indiceAuxiliar = j;
 				}
 			}
+			// Al final tendremos el indice del vertice y la distancia minima correspondiente, actualizamos valores
 			indiceVerticeActual = indiceAuxiliar;
 			mejorTour.getTour().add(indiceVerticeActual);
 			mejorValorObjetivo = mejorValorObjetivo + minimoCosteNoVisitado;
 			visitados.set(indiceVerticeActual, true);
 		}
+		// Mostramos valores objetivos y el recorrido del tour
 		System.out.println("Valor objetivo: " + mejorValorObjetivo);
 		System.out.println("Tour");
 		mejorTour.mostrarTour();
-	}
-
-	/*
-	 * Metodo de carga
-	 */
-	public void cargarEntrada() {
-
-	}
-
-	/*
-	 * Metodo de computacion de la cota superior
-	 */
-	public void computacionCotaSuperior() {
-
-	}
-
-	/*
-	 * Obtener valor de la cota superior
-	 */
-	public double obtenerValorCotaSuperior() {
-		return 0;
 	}
 
 	/**

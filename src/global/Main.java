@@ -1,4 +1,6 @@
-package clases;
+package global;
+
+import clases.CotaSuperior;
 
 public class Main {
 
@@ -7,6 +9,7 @@ public class Main {
 		/*InfoProblema problema = new InfoProblema("src/ficherosXML/br17.xml");
 		problema.mostrarMatriz();*/
 		CotaSuperior cota = new CotaSuperior("src/ficherosXML/br17.xml");
+		cota.getInfoProblema().mostrarMatriz();
 		cota.calcularCota();
 	}
 
