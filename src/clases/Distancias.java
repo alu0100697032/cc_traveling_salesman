@@ -2,22 +2,27 @@ package clases;
 
 import java.util.ArrayList;
 
-public class MatrizDistancias {
+public class Distancias {
 
 	private ArrayList<ArrayList<Double>> matrizDistancias;
 	
-	public MatrizDistancias(){
-		matrizDistancias = new ArrayList<ArrayList<Double>>();
+	public Distancias(){
+		setMatrizDistancias(new ArrayList<ArrayList<Double>>());
 	}
-	/*
-	 * Matriz de distancias
+	
+	/**
+	 * @return the matrizDistancias
 	 */
-
 	public ArrayList<ArrayList<Double>> getMatrizDistancias() {
 		return matrizDistancias;
 	}
 
+	/**
+	 * @param matrizDistancias the matrizDistancias to set
+	 */
 	public void setMatrizDistancias(ArrayList<ArrayList<Double>> matrizDistancias) {
 		this.matrizDistancias = matrizDistancias;
 	}
+
+	
 }

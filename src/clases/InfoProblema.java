@@ -19,14 +19,15 @@ public class InfoProblema {
 	 * Atributos
 	 */
 
-	private MatrizDistancias matrizDistancias;
+	private Distancias matrizDistancias;
 
 	/*
 	 * Constructor
 	 */
 
-	public InfoProblema() {
-		matrizDistancias = new MatrizDistancias();
+	public InfoProblema(String nombreFichero) {
+		matrizDistancias = new Distancias();
+		leerDatosProblema(nombreFichero);
 	}
 
 	/*
@@ -47,19 +48,27 @@ public class InfoProblema {
 			NodeList listaVertices = raiz.getElementsByTagName("vertex");
 			// Recorrer la lista de empleados
 			for (int i = 0; i < listaVertices.getLength(); i++) {
-				matrizDistancias.getMatrizDistancias().add(new ArrayList<Double>());
+				matrizDistancias.getMatrizDistancias().add(
+						new ArrayList<Double>());
 				// Obtener de la lista un empleado tras otro
 				Node vertice = listaVertices.item(i);
 				// Obtener la lista de los datos que contiene ese empleado
 				NodeList distanciasVertice = vertice.getChildNodes();
 				// Recorrer la lista de los datos que contiene el empleado
 				for (int j = 0; j < distanciasVertice.getLength(); j++) {
-					if (distanciasVertice.item(j).getNodeType() == Node.ELEMENT_NODE) {
-						Element distancia = (Element) distanciasVertice.item(j);
-						if (distancia.hasAttribute("cost"))
-							matrizDistancias.getMatrizDistancias().get(i).add(
-									Double.parseDouble(distancia
-											.getAttribute("cost")));
+					if (j == i)
+						matrizDistancias.getMatrizDistancias().get(i).add(0.0);
+					else {
+						if (distanciasVertice.item(j).getNodeType() == Node.ELEMENT_NODE) {
+							Element distancia = (Element) distanciasVertice
+									.item(j);
+							if (distancia.hasAttribute("cost"))
+								matrizDistancias
+										.getMatrizDistancias()
+										.get(i)
+										.add(Double.parseDouble(distancia
+												.getAttribute("cost")));
+						}
 					}
 				}
 			}
@@ -87,8 +96,11 @@ public class InfoProblema {
 	 */
 	public void mostrarMatriz() {
 		for (int i = 0; i < matrizDistancias.getMatrizDistancias().size(); i++) {
-			for (int j = 0; j < matrizDistancias.getMatrizDistancias().get(i).size(); j++) {
-				System.out.println(matrizDistancias.getMatrizDistancias().get(i).get(j) + " ");
+			for (int j = 0; j < matrizDistancias.getMatrizDistancias().get(i)
+					.size(); j++) {
+				System.out.println(matrizDistancias.getMatrizDistancias()
+						.get(i).get(j)
+						+ " ");
 			}
 			System.out.println("");
 		}
@@ -97,7 +109,7 @@ public class InfoProblema {
 	/**
 	 * @return the matrizDistancias
 	 */
-	public MatrizDistancias getMatrizDistancias() {
+	public Distancias getDistancias() {
 		return matrizDistancias;
 	}
 
@@ -105,8 +117,7 @@ public class InfoProblema {
 	 * @param matrizDistancias
 	 *            the matrizDistancias to set
 	 */
-	public void setMatrizDistancias(
-			MatrizDistancias matrizDistancias) {
+	public void setDistancias(Distancias matrizDistancias) {
 		this.matrizDistancias = matrizDistancias;
 	}
 }
