@@ -32,6 +32,17 @@ public class Distancias {
 		}
 	}
 	/**
+	 * mostrarMatriz
+	 */
+	public void mostrarMatriz() {
+		for (int i = 0; i < matrizDistancias.size(); i++) {
+			for (int j = 0; j < matrizDistancias.get(i).size(); j++) {
+				System.out.print(matrizDistancias.get(i).get(j) + " ");
+			}
+			System.out.println("");
+		}
+	}
+	/**
 	 * @return the matrizDistancias
 	 */
 	public ArrayList<ArrayList<Double>> getMatrizDistancias() {

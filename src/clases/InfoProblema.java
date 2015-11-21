@@ -82,18 +82,6 @@ public class InfoProblema {
 	}
 
 	/**
-	 * mostrarMatriz
-	 */
-	public void mostrarMatriz() {
-		for (int i = 0; i < matrizDistancias.getMatrizDistancias().size(); i++) {
-			for (int j = 0; j < matrizDistancias.getMatrizDistancias().get(i).size(); j++) {
-				System.out.print(matrizDistancias.getMatrizDistancias().get(i).get(j) + " ");
-			}
-			System.out.println("");
-		}
-	}
-
-	/**
 	 * @return the matrizDistancias
 	 */
 	public Distancias getDistancias() {
