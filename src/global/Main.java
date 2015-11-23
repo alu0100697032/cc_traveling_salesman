@@ -11,6 +11,6 @@ public class Main {
 		CotaSuperior cota = new CotaSuperior("src/ficherosXML/br17.xml");
 		cota.getInfoProblema().getDistancias().mostrarMatriz();
 		cota.calcularCota();
+		cota.calcularCotaB();
 	}
-
 }
