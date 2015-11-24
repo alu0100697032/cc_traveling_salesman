@@ -9,7 +9,7 @@ public class Main {
 		/*InfoProblema problema = new InfoProblema("src/ficherosXML/br17.xml");
 		problema.mostrarMatriz();*/
 		CotaSuperior cota = new CotaSuperior("src/ficherosXML/br17.xml");
-		cota.getInfoProblema().getDistancias().mostrarMatriz();
+		//cota.getInfoProblema().getDistancias().mostrarMatriz();
 		cota.calcularCota();
 		cota.calcularCotaB();
 	}

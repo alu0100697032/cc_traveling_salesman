@@ -17,6 +17,7 @@ public class RamifiacionPoda {
 		cotaActual = cotaInicial;
 	}
 	
+	
 	/**
 	 * @return the cotaActual
 	 */

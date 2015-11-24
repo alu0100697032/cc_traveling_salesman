@@ -5,7 +5,9 @@
  */
 package clases;
 
+import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import global.VariablesGlobales;
 
@@ -58,19 +60,24 @@ public class CotaSuperior {
 			mejorValorObjetivo = mejorValorObjetivo + minimoCosteNoVisitado;
 		}
 		// Mostramos valores objetivos y el recorrido del tour
-		System.out.println("Valor objetivo: " + mejorValorObjetivo);
+		/*System.out.println("Valor objetivo: " + mejorValorObjetivo);
 		System.out.println("Tour");
-		mejorTour.mostrarTour();
+		mejorTour.mostrarTour();*/
 	}
-	
+	/**
+	 * calcularCotaB
+	 */
 	public void calcularCotaB() {
 		int indiceVerticeActual = 0;
 		LinkedHashMap<Integer, Integer> recorrido = new LinkedHashMap<Integer, Integer>();
 		recorrido.put(indiceVerticeActual, indiceVerticeActual);
-		System.out.println(calcularValorObjetivo(recorrido, 0));
+		System.out.println(calcularValorObjetivo(calcularRestoRuta(recorrido, 0)));
 	}
 
-	public double calcularValorObjetivo(LinkedHashMap<Integer, Integer> recorridoActual, double valorObjetivoActual) {
+	/**
+	 * calcularRestoRuta
+	 */
+	public LinkedHashMap<Integer, Integer> calcularRestoRuta(LinkedHashMap<Integer, Integer> recorridoActual, double valorObjetivoActual) {
 		double minimoCosteNoVisitado;
 		int indiceVerticeActual = recorridoActual.get(recorridoActual.size()-1);
 		int indiceAuxiliar = 0;
@@ -94,8 +101,24 @@ public class CotaSuperior {
 			recorrido.put(indiceVerticeActual, indiceVerticeActual);
 			valorObjetivoActual = valorObjetivoActual + minimoCosteNoVisitado;
 		}
-		System.out.println();
-		return valorObjetivoActual;
+		return recorrido;
+	}
+	public double calcularValorObjetivo(LinkedHashMap<Integer, Integer> recorridoActual) {
+		double valorObjetivo = 0.0;
+		int anterior = 0;
+		int primero = 0;
+		Iterator it = recorridoActual.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry e = (Map.Entry)it.next();
+			if(primero == 0) {
+				primero++;
+				anterior = (int) e.getKey();
+				continue;
+			}
+			valorObjetivo += infoProblema.getDistancias().getMatrizDistancias().get(anterior).get((int) e.getKey());
+			anterior = (int) e.getKey();
+		}
+		return valorObjetivo;
 	}
 	/**
 	 * @return the infoProblema
