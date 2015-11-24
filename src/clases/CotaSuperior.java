@@ -82,10 +82,6 @@ public class CotaSuperior {
 		}
 		visitados.set(indiceVerticeActual, true);
 		recorrido.add(indiceVerticeActual);
-		visitados.set(10, true);
-		recorrido.add(11);
-		System.out.println();
-		System.out.print(indiceVerticeActual + "->");
 		System.out.println(calcularValorObjetivo(recorrido, visitados, 0));
 	}
 
@@ -112,7 +108,6 @@ public class CotaSuperior {
 			// Al final tendremos el indice del vertice y la distancia minima correspondiente, actualizamos valores
 			indiceVerticeActual = indiceAuxiliar;
 			recorrido.add(indiceVerticeActual);
-			System.out.print(indiceVerticeActual + "->");
 			valorObjetivoActual = valorObjetivoActual + minimoCosteNoVisitado;
 			visitados.set(indiceVerticeActual, true);
 		}

@@ -36,6 +36,7 @@ public class Distancias {
 	 */
 	public void mostrarMatriz() {
 		for (int i = 0; i < matrizDistancias.size(); i++) {
+			System.out.print(i + ": ");
 			for (int j = 0; j < matrizDistancias.get(i).size(); j++) {
 				System.out.print(matrizDistancias.get(i).get(j) + " ");
 			}
