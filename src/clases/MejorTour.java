@@ -6,18 +6,19 @@
 package clases;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MejorTour {
 	/**
 	 * Atributos
 	 */
-	private ArrayList<Integer> tour;
+	private HashMap<Integer, Integer> tour;
 	
 	/**
 	 * Constructor: MejorTour
 	 */
 	public MejorTour(){
-		setTour(new ArrayList<Integer>());
+		setTour(new HashMap<Integer, Integer>());
 	}
 
 	/**
@@ -35,14 +36,14 @@ public class MejorTour {
 	/**
 	 * @return the tour
 	 */
-	public ArrayList<Integer> getTour() {
+	public HashMap<Integer, Integer> getTour() {
 		return tour;
 	}
 
 	/**
 	 * @param tour the tour to set
 	 */
-	public void setTour(ArrayList<Integer> tour) {
+	public void setTour(HashMap<Integer, Integer> tour) {
 		this.tour = tour;
 	}
 }

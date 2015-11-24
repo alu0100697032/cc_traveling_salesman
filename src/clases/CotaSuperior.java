@@ -6,6 +6,8 @@
 package clases;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import global.VariablesGlobales;
 
 public class CotaSuperior {
@@ -34,17 +36,8 @@ public class CotaSuperior {
 		int indiceAuxiliar = indiceVerticeActual;
 		// Al final indicara la distancia de coste minimo al siguiente vertice del vertice evaluado 
 		double minimoCosteNoVisitado = VariablesGlobales.MAXDISTANCE;
-		// Lista que indica si el nodo ha sido visitado o no
-		ArrayList<Boolean> visitados = new ArrayList<Boolean>();
-		// Ningun vertice inicialmente esta visitado...
-		for (int i = 0; i < infoProblema.getDistancias().getMatrizDistancias()
-				.size(); i++) {
-			visitados.add(false);
-		}
-		//Menos el actual
-		visitados.set(indiceVerticeActual, true);
 		//Lo metemos en el recorrido del tour
-		mejorTour.getTour().add(indiceVerticeActual);
+		mejorTour.getTour().put(indiceVerticeActual, indiceVerticeActual);
 		//Recorremos los vertices y vamos comprobando cual es el mas proximo a este 
 		for (int i = 0; i < infoProblema.getDistancias().getMatrizDistancias()
 				.size()-1; i++) {
@@ -54,7 +47,7 @@ public class CotaSuperior {
 				// Si mejora guardamos la distancia y el indice del vertice
 				if (infoProblema.getDistancias().getMatrizDistancias().get(indiceVerticeActual)
 						.get(j) < minimoCosteNoVisitado
-						&& visitados.get(j) == false) {
+						&& !mejorTour.getTour().containsKey(j)) {
 					minimoCosteNoVisitado = infoProblema.getDistancias().getMatrizDistancias().get(indiceVerticeActual)
 							.get(j);
 					indiceAuxiliar = j;
@@ -62,9 +55,8 @@ public class CotaSuperior {
 			}
 			// Al final tendremos el indice del vertice y la distancia minima correspondiente, actualizamos valores
 			indiceVerticeActual = indiceAuxiliar;
-			mejorTour.getTour().add(indiceVerticeActual);
+			mejorTour.getTour().put(indiceVerticeActual, indiceVerticeActual);
 			mejorValorObjetivo = mejorValorObjetivo + minimoCosteNoVisitado;
-			visitados.set(indiceVerticeActual, true);
 		}
 		// Mostramos valores objetivos y el recorrido del tour
 		System.out.println("Valor objetivo: " + mejorValorObjetivo);
@@ -74,23 +66,16 @@ public class CotaSuperior {
 	
 	public void calcularCotaB() {
 		int indiceVerticeActual = 0;
-		ArrayList<Integer> recorrido = new ArrayList<>();
-		ArrayList<Boolean> visitados = new ArrayList<Boolean>();
-		for (int i = 0; i < infoProblema.getDistancias().getMatrizDistancias()
-				.size(); i++) {
-			visitados.add(false);
-		}
-		visitados.set(indiceVerticeActual, true);
-		recorrido.add(indiceVerticeActual);
-		System.out.println(calcularValorObjetivo(recorrido, visitados, 0));
+		HashMap<Integer, Integer> recorrido = new HashMap<Integer, Integer>();
+		recorrido.put(indiceVerticeActual, indiceVerticeActual);
+		System.out.println(calcularValorObjetivo(recorrido, 0));
 	}
 
-	public double calcularValorObjetivo(ArrayList<Integer> recorridoActual, ArrayList<Boolean> visitadosActual, double valorObjetivoActual) {
+	public double calcularValorObjetivo(HashMap<Integer, Integer> recorridoActual, double valorObjetivoActual) {
 		double minimoCosteNoVisitado;
 		int indiceVerticeActual = recorridoActual.get(recorridoActual.size()-1);
 		int indiceAuxiliar = 0;
-		ArrayList<Integer> recorrido = (ArrayList<Integer>) recorridoActual.clone();
-		ArrayList<Boolean> visitados = (ArrayList<Boolean>) visitadosActual.clone();
+		HashMap<Integer, Integer> recorrido =  (HashMap<Integer, Integer>) recorridoActual.clone();
 		for (int i = 0; i < infoProblema.getDistancias().getMatrizDistancias()
 				.size()-recorridoActual.size(); i++) {
 			minimoCosteNoVisitado = VariablesGlobales.MAXDISTANCE;
@@ -99,7 +84,7 @@ public class CotaSuperior {
 				// Si mejora guardamos la distancia y el indice del vertice
 				if (infoProblema.getDistancias().getMatrizDistancias().get(indiceVerticeActual)
 						.get(j) < minimoCosteNoVisitado
-						&& visitados.get(j) == false) {
+						&& !recorrido.containsKey(j)) {
 					minimoCosteNoVisitado = infoProblema.getDistancias().getMatrizDistancias().get(indiceVerticeActual)
 							.get(j);
 					indiceAuxiliar = j;
@@ -107,9 +92,8 @@ public class CotaSuperior {
 			}
 			// Al final tendremos el indice del vertice y la distancia minima correspondiente, actualizamos valores
 			indiceVerticeActual = indiceAuxiliar;
-			recorrido.add(indiceVerticeActual);
+			recorrido.put(indiceVerticeActual, indiceVerticeActual);
 			valorObjetivoActual = valorObjetivoActual + minimoCosteNoVisitado;
-			visitados.set(indiceVerticeActual, true);
 		}
 		System.out.println();
 		return valorObjetivoActual;

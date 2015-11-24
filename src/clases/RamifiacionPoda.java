@@ -16,6 +16,7 @@ public class RamifiacionPoda {
 	public RamifiacionPoda(int cotaInicial) {
 		cotaActual = cotaInicial;
 	}
+	
 	/**
 	 * @return the cotaActual
 	 */
