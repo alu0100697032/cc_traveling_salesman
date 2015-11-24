@@ -5,45 +5,45 @@
  */
 package clases;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class MejorTour {
 	/**
 	 * Atributos
 	 */
-	private HashMap<Integer, Integer> tour;
+	private LinkedHashMap<Integer, Integer> tour;
 	
 	/**
 	 * Constructor: MejorTour
 	 */
 	public MejorTour(){
-		setTour(new HashMap<Integer, Integer>());
+		setTour(new LinkedHashMap<Integer, Integer>());
 	}
 
 	/**
 	 * mostrarTour
 	 */
 	public void mostrarTour(){
-		for(int i = 0; i < tour.size(); i++) {
-			if(i == tour.size()-1)
-				System.out.print(tour.get(i));
-			else
-				System.out.print(tour.get(i)+"->");
+		Iterator it = tour.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry e = (Map.Entry)it.next();
+			System.out.print(e.getKey() + "->");
 		}
 	}
 	
 	/**
 	 * @return the tour
 	 */
-	public HashMap<Integer, Integer> getTour() {
+	public LinkedHashMap<Integer, Integer> getTour() {
 		return tour;
 	}
 
 	/**
 	 * @param tour the tour to set
 	 */
-	public void setTour(HashMap<Integer, Integer> tour) {
+	public void setTour(LinkedHashMap<Integer, Integer> tour) {
 		this.tour = tour;
 	}
 }

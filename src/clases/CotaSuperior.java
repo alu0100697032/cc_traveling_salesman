@@ -5,8 +5,7 @@
  */
 package clases;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import global.VariablesGlobales;
 
@@ -66,16 +65,16 @@ public class CotaSuperior {
 	
 	public void calcularCotaB() {
 		int indiceVerticeActual = 0;
-		HashMap<Integer, Integer> recorrido = new HashMap<Integer, Integer>();
+		LinkedHashMap<Integer, Integer> recorrido = new LinkedHashMap<Integer, Integer>();
 		recorrido.put(indiceVerticeActual, indiceVerticeActual);
 		System.out.println(calcularValorObjetivo(recorrido, 0));
 	}
 
-	public double calcularValorObjetivo(HashMap<Integer, Integer> recorridoActual, double valorObjetivoActual) {
+	public double calcularValorObjetivo(LinkedHashMap<Integer, Integer> recorridoActual, double valorObjetivoActual) {
 		double minimoCosteNoVisitado;
 		int indiceVerticeActual = recorridoActual.get(recorridoActual.size()-1);
 		int indiceAuxiliar = 0;
-		HashMap<Integer, Integer> recorrido =  (HashMap<Integer, Integer>) recorridoActual.clone();
+		LinkedHashMap<Integer, Integer> recorrido =  (LinkedHashMap<Integer, Integer>) recorridoActual.clone();
 		for (int i = 0; i < infoProblema.getDistancias().getMatrizDistancias()
 				.size()-recorridoActual.size(); i++) {
 			minimoCosteNoVisitado = VariablesGlobales.MAXDISTANCE;
