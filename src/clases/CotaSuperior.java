@@ -5,6 +5,7 @@
  */
 package clases;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -27,99 +28,68 @@ public class CotaSuperior {
 		mejorTour = new MejorTour();
 		mejorValorObjetivo = 0;
 	}
+
 	/**
 	 * calcularCota
 	 */
-	public void calcularCota() {
-		//Comenzamos en el vertice 0, vertice que estamos evaluando
-		int indiceVerticeActual = 0;
-		// Para guardar la posicion del vertice siguiente que mejora la distancia minima actual
+	public void calcularCota(int nodoInicial) {
+		// Comenzamos en el vertice 0, vertice que estamos evaluando
+		int indiceVerticeActual = nodoInicial;
+		// Para guardar la posicion del vertice siguiente que mejora la
+		// distancia minima actual
 		int indiceAuxiliar = indiceVerticeActual;
-		// Al final indicara la distancia de coste minimo al siguiente vertice del vertice evaluado 
+		// Al final indicara la distancia de coste minimo al siguiente vertice
+		// del vertice evaluado
 		double minimoCosteNoVisitado = VariablesGlobales.MAXDISTANCE;
-		//Lo metemos en el recorrido del tour
-		mejorTour.getTour().put(indiceVerticeActual, indiceVerticeActual);
-		//Recorremos los vertices y vamos comprobando cual es el mas proximo a este 
-		for (int i = 0; i < infoProblema.getDistancias().getMatrizDistancias()
-				.size()-1; i++) {
+		// Lo metemos en el recorrido del tour
+		mejorTour.getTour().add(indiceVerticeActual);
+		// Recorremos los vertices y vamos comprobando cual es el mas proximo a
+		// este
+		for (int i = 0; i < infoProblema.getDistancias().getMatrizDistancias().size() - 1; i++) {
 			minimoCosteNoVisitado = VariablesGlobales.MAXDISTANCE;
-			for (int j = 0; j < infoProblema.getDistancias()
-					.getMatrizDistancias().get(i).size(); j++) {
+			for (int j = 0; j < infoProblema.getDistancias().getMatrizDistancias().get(i).size(); j++) {
 				// Si mejora guardamos la distancia y el indice del vertice
 				if (infoProblema.getDistancias().getMatrizDistancias().get(indiceVerticeActual)
-						.get(j) < minimoCosteNoVisitado
-						&& !mejorTour.getTour().containsKey(j)) {
+						.get(j) < minimoCosteNoVisitado && !mejorTour.getTour().contains(j)) {
 					minimoCosteNoVisitado = infoProblema.getDistancias().getMatrizDistancias().get(indiceVerticeActual)
 							.get(j);
 					indiceAuxiliar = j;
 				}
 			}
-			// Al final tendremos el indice del vertice y la distancia minima correspondiente, actualizamos valores
+			// Al final tendremos el indice del vertice y la distancia minima
+			// correspondiente, actualizamos valores
 			indiceVerticeActual = indiceAuxiliar;
-			mejorTour.getTour().put(indiceVerticeActual, indiceVerticeActual);
-			mejorValorObjetivo = mejorValorObjetivo + minimoCosteNoVisitado;
+			mejorTour.getTour().add(indiceVerticeActual);
+			mejorValorObjetivo += minimoCosteNoVisitado;
 		}
+		mejorValorObjetivo += infoProblema.getDistancias().getMatrizDistancias()
+				.get(mejorTour.getTour().get(mejorTour.getTour().size() - 1)).get(nodoInicial);
 		// Mostramos valores objetivos y el recorrido del tour
-		/*System.out.println("Valor objetivo: " + mejorValorObjetivo);
+		System.out.println("Valor objetivo: " + mejorValorObjetivo);
 		System.out.println("Tour");
-		mejorTour.mostrarTour();*/
-	}
-	/**
-	 * calcularCotaB
-	 */
-	public void calcularCotaB() {
-		int indiceVerticeActual = 0;
-		LinkedHashMap<Integer, Integer> recorrido = new LinkedHashMap<Integer, Integer>();
-		recorrido.put(indiceVerticeActual, indiceVerticeActual);
-		System.out.println(calcularValorObjetivo(calcularRestoRuta(recorrido, 0)));
+		mejorTour.mostrarTour();
 	}
 
 	/**
-	 * calcularRestoRuta
+	 * calcularValorObjetivo
 	 */
-	public LinkedHashMap<Integer, Integer> calcularRestoRuta(LinkedHashMap<Integer, Integer> recorridoActual, double valorObjetivoActual) {
-		double minimoCosteNoVisitado;
-		int indiceVerticeActual = recorridoActual.get(recorridoActual.size()-1);
-		int indiceAuxiliar = 0;
-		LinkedHashMap<Integer, Integer> recorrido =  (LinkedHashMap<Integer, Integer>) recorridoActual.clone();
-		for (int i = 0; i < infoProblema.getDistancias().getMatrizDistancias()
-				.size()-recorridoActual.size(); i++) {
-			minimoCosteNoVisitado = VariablesGlobales.MAXDISTANCE;
-			for (int j = 0; j < infoProblema.getDistancias()
-					.getMatrizDistancias().get(i).size(); j++) {
-				// Si mejora guardamos la distancia y el indice del vertice
-				if (infoProblema.getDistancias().getMatrizDistancias().get(indiceVerticeActual)
-						.get(j) < minimoCosteNoVisitado
-						&& !recorrido.containsKey(j)) {
-					minimoCosteNoVisitado = infoProblema.getDistancias().getMatrizDistancias().get(indiceVerticeActual)
-							.get(j);
-					indiceAuxiliar = j;
-				}
-			}
-			// Al final tendremos el indice del vertice y la distancia minima correspondiente, actualizamos valores
-			indiceVerticeActual = indiceAuxiliar;
-			recorrido.put(indiceVerticeActual, indiceVerticeActual);
-			valorObjetivoActual = valorObjetivoActual + minimoCosteNoVisitado;
-		}
-		return recorrido;
-	}
-	public double calcularValorObjetivo(LinkedHashMap<Integer, Integer> recorridoActual) {
+	public double calcularValorObjetivo(ArrayList<Integer> recorridoActual) {
 		double valorObjetivo = 0.0;
 		int anterior = 0;
 		int primero = 0;
-		Iterator it = recorridoActual.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry e = (Map.Entry)it.next();
-			if(primero == 0) {
+		for (int i = 0; i < recorridoActual.size(); i++) {
+			if (primero == 0) {
 				primero++;
-				anterior = (int) e.getKey();
+				anterior = recorridoActual.get(i);
 				continue;
 			}
-			valorObjetivo += infoProblema.getDistancias().getMatrizDistancias().get(anterior).get((int) e.getKey());
-			anterior = (int) e.getKey();
+			valorObjetivo += infoProblema.getDistancias().getMatrizDistancias().get(anterior)
+					.get(recorridoActual.get(i));
+			anterior = recorridoActual.get(i);
 		}
 		return valorObjetivo;
 	}
+
 	/**
 	 * @return the infoProblema
 	 */
@@ -138,7 +108,7 @@ public class CotaSuperior {
 	/**
 	 * @return the mejorValorObtenido
 	 */
-	public double getMejorValorObtenido() {
+	public double getMejorValorObjetivo() {
 		return mejorValorObjetivo;
 	}
 
@@ -146,7 +116,7 @@ public class CotaSuperior {
 	 * @param mejorValorObtenido
 	 *            the mejorValorObtenido to set
 	 */
-	public void setMejorValorObtenido(double mejorValorObtenido) {
+	public void setMejorValorObjetivo(double mejorValorObtenido) {
 		this.mejorValorObjetivo = mejorValorObtenido;
 	}
 

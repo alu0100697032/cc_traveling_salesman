@@ -1,16 +1,13 @@
 package global;
 
 import clases.CotaSuperior;
+import clases.RamifiacionPoda;
 
 public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		/*InfoProblema problema = new InfoProblema("src/ficherosXML/br17.xml");
-		problema.mostrarMatriz();*/
-		CotaSuperior cota = new CotaSuperior("src/ficherosXML/br17.xml");
+		RamifiacionPoda rp = new RamifiacionPoda("src/ficherosXML/br17.xml", 0);
 		//cota.getInfoProblema().getDistancias().mostrarMatriz();
-		cota.calcularCota();
-		cota.calcularCotaB();
 	}
 }
