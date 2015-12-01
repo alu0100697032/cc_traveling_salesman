@@ -14,3 +14,4 @@ Con ese propósito se seguirán los siguientes pasos:
 ## Recursos
 * [Leer xml en java](http://javiergarbedo.es/53-apuntes-java/xml/247-ejemplo-de-lectura-de-fichero-xml-usando-dom)
 * [Leer xml en java 2](http://www.novanebula.net/blog/archives/144-Analizar-XML-con-Java.html)
+* [BB pdf](http://www.etsii.urjc.es/~edi/Sistemas/documentos/Tema4.3.4_RamificacionYPoda.pdf)
