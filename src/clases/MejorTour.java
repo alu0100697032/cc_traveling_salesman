@@ -27,6 +27,7 @@ public class MejorTour {
 		System.out.println("Mejor tour: ");
 		for(int i = 0; i < tour.size(); i++)
 			System.out.print(tour.get(i) + "->");	
+		System.out.println("");
 	}
 
 	/**
