@@ -71,26 +71,6 @@ public class CotaSuperior {
 	}
 
 	/**
-	 * calcularValorObjetivo
-	 */
-	public double calcularValorObjetivo(ArrayList<Integer> recorridoActual) {
-		double valorObjetivo = 0.0;
-		int anterior = 0;
-		int primero = 0;
-		for (int i = 0; i < recorridoActual.size(); i++) {
-			if (primero == 0) {
-				primero++;
-				anterior = recorridoActual.get(i);
-				continue;
-			}
-			valorObjetivo += infoProblema.getDistancias().getMatrizDistancias().get(anterior)
-					.get(recorridoActual.get(i));
-			anterior = recorridoActual.get(i);
-		}
-		return valorObjetivo;
-	}
-
-	/**
 	 * @return the infoProblema
 	 */
 	public InfoProblema getInfoProblema() {

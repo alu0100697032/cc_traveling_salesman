@@ -6,6 +6,7 @@
 package clases;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class RamifiacionPoda {
 	/**
@@ -14,67 +15,57 @@ public class RamifiacionPoda {
 	private CotaSuperior cotaSuperior;
 	private int verticePartida;
 
-	private ArrayList<Integer> tourActual;
-	private double valorObjetivoActual;
+	private Stack<ArrayList<Integer>> listaTrayectorias;
 
 	/**
 	 * Constructor: RamifiacionPoda
 	 */
 	public RamifiacionPoda(String nombreFichero, int verticeInicial) {
 		setCotaSuperior(new CotaSuperior(nombreFichero));
-		cotaSuperior.getInfoProblema().getDistancias().mostrarMatriz();
-		cotaSuperior.calcularCota(verticeInicial);
 		setVerticePartida(verticeInicial);
-		ejecutarRP();
+		listaTrayectorias = new Stack<ArrayList<Integer>>();
+		ArrayList<Integer> trayectoriaInicial = new ArrayList<Integer>();
+		trayectoriaInicial.add(verticePartida);
+		listaTrayectorias.push(trayectoriaInicial);
 	}
-
-	/**
-	 * ejecutarRP
-	 */
-	public void ejecutarRP() {
-		tourActual = new ArrayList<>();
-		tourActual.add(verticePartida);
-		valorObjetivoActual = 0;
-		rP(verticePartida, tourActual);
-		System.out.println(cotaSuperior.getMejorValorObjetivo());
-		cotaSuperior.getMejorTour().mostrarTour();
+	
+	public void algoritmoRamificacionPoda(){
+		while (!listaTrayectorias.empty()) {
+			//ramificar(listaTrayectorias.pop());
+			//podar();
+		}
+	}
+	public double calcularRestoTrayectoria(ArrayList<Integer> trayectoria){
+		ArrayList<Integer> copiaTrayectoria = (ArrayList<Integer>)trayectoria.clone();
+		
+		return calcularValorObjetivoRecorridoActual(copiaTrayectoria);
 	}
 	/**
 	 * getMatrizDistancias
 	 */
 	public ArrayList<ArrayList<Double>> getMatrizDistancias() {
-		return cotaSuperior.getInfoProblema().getDistancias().getMatrizDistancias();
+		return cotaSuperior.getInfoProblema().getDistancias()
+				.getMatrizDistancias();
 	}
 	/**
-	 * rP
+	 * calcularValorObjetivoRecorridoActual
 	 */
-	public void rP(int desde, ArrayList<Integer> tour) {
-		// we've found a new solution
-		if (tour.size() == getMatrizDistancias().size()) {
-			tour.add(verticePartida);
-			// update the route's cost
-			valorObjetivoActual += getMatrizDistancias().get(desde).get(verticePartida);
-			if (valorObjetivoActual < cotaSuperior.getMejorValorObjetivo()) {
-				cotaSuperior.setMejorValorObjetivo(valorObjetivoActual);
-				cotaSuperior.getMejorTour().setTour((ArrayList) tour.clone());
+	public double calcularValorObjetivoRecorridoActual(ArrayList<Integer> recorridoActual) {
+		double valorObjetivo = 0.0;
+		int anterior = 0;
+		int primero = 0;
+		for (int i = 0; i < recorridoActual.size(); i++) {
+			if (primero == 0) {
+				primero++;
+				anterior = recorridoActual.get(i);
+				continue;
 			}
-			// update the route's cost (back to the previous value)
-			valorObjetivoActual -= getMatrizDistancias().get(desde).get(verticePartida);
-		} else {
-			for (int to = 0; to < getMatrizDistancias().size(); to++) {
-				if (!tour.contains(to)) {
-					// update the route's cost
-					valorObjetivoActual += getMatrizDistancias().get(desde).get(to);
-					if (valorObjetivoActual < cotaSuperior.getMejorValorObjetivo()) {
-						ArrayList<Integer> increasedRoute = (ArrayList<Integer>) tour.clone();
-						increasedRoute.add(to);
-						rP(to, increasedRoute);
-					}
-					// update the route's cost (back to the previous value)
-					valorObjetivoActual -= getMatrizDistancias().get(desde).get(to);
-				}
-			}
+			valorObjetivo += getMatrizDistancias().get(anterior).get(
+					recorridoActual.get(i));
+			anterior = recorridoActual.get(i);
 		}
+		valorObjetivo += getMatrizDistancias().get(getMatrizDistancias().size()-1).get(verticePartida);
+		return valorObjetivo;
 	}
 	/**
 	 * @return the cotaSuperior
@@ -82,6 +73,7 @@ public class RamifiacionPoda {
 	public CotaSuperior getCotaSuperior() {
 		return cotaSuperior;
 	}
+
 	/**
 	 * @param cotaSuperior
 	 *            the cotaSuperior to set
@@ -106,32 +98,18 @@ public class RamifiacionPoda {
 	}
 
 	/**
-	 * @return the tourActual
+	 * @return the listaTrayectorias
 	 */
-	public ArrayList<Integer> getTourActual() {
-		return tourActual;
+	public Stack<ArrayList<Integer>> getListaTrayectorias() {
+		return listaTrayectorias;
 	}
 
 	/**
-	 * @param tourActual
-	 *            the tourActual to set
+	 * @param listaTrayectorias
+	 *            the listaTrayectorias to set
 	 */
-	public void setTourActual(ArrayList<Integer> tourActual) {
-		this.tourActual = tourActual;
-	}
-
-	/**
-	 * @return the valorObjetivoActual
-	 */
-	public double getValorObjetivoActual() {
-		return valorObjetivoActual;
-	}
-
-	/**
-	 * @param valorObjetivoActual
-	 *            the valorObjetivoActual to set
-	 */
-	public void setValorObjetivoActual(double valorObjetivoActual) {
-		this.valorObjetivoActual = valorObjetivoActual;
+	public void setListaTrayectorias(
+			Stack<ArrayList<Integer>> listaTrayectorias) {
+		this.listaTrayectorias = listaTrayectorias;
 	}
 }
