@@ -24,7 +24,7 @@ public class RamifiacionPoda {
 	 */
 	public RamifiacionPoda(String nombreFichero, int verticeInicial) {
 		setCotaSuperior(new CotaSuperior(nombreFichero));
-		cotaSuperior.getInfoProblema().getDistancias().mostrarMatriz();
+		//cotaSuperior.getInfoProblema().getDistancias().mostrarMatriz();
 		cotaSuperior.calcularCota(verticePartida);
 		setVerticePartida(verticeInicial);
 		listaTrayectorias = new Stack<ArrayList<Integer>>();
@@ -45,45 +45,19 @@ public class RamifiacionPoda {
 			ArrayList<Integer> trayectoria = listaTrayectorias.pop();
 			if (trayectoria.size() == getMatrizDistancias().size()) {
 				double valorObjetivoTrayectoria = calcularCotaInferior(trayectoria);
-				System.out.println(valorObjetivoTrayectoria);
+				valorObjetivoTrayectoria += getMatrizDistancias().get(trayectoria.get(trayectoria.size()-1)).get(verticePartida);
+				//System.out.println(valorObjetivoTrayectoria);
 				if (valorObjetivoTrayectoria < cotaSuperior.getMejorValorObjetivo()) {
+					System.out.println(valorObjetivoTrayectoria);
 					cotaSuperior.setMejorValorObjetivo(valorObjetivoTrayectoria);
 					cotaSuperior.getMejorTour().setTour(trayectoria);
 				}
 			} else {
-				//System.out.println(calcularRestoTrayectoria(trayectoria) + " < " + cotaSuperior.getMejorValorObjetivo());
 				if (calcularRestoTrayectoria(trayectoria) < cotaSuperior.getMejorValorObjetivo()) {
-					//System.out.println("bbbbbbbbbbb");
 					ramificar(trayectoria);
 				}
 			}
 		}
-	}
-	/**
-	 * calcularRestoTrayectoria
-	 */
-	public double calcularRestoTrayectoria(ArrayList<Integer> trayectoria) {
-		int vertice = trayectoria.get(trayectoria.size()-1);
-		int aux = 0;
-		double minimo = VariablesGlobales.MAXDISTANCE;
-		double valorObjetivoRestante = 0.0;
-		ArrayList<Integer> copiaTrayectoria = (ArrayList<Integer>) trayectoria.clone();
-		//quitar un bucle y enlazar ultimo nodo de copiatrayectoria para que sea el explorado
-		for (int i = 0; i < getMatrizDistancias().size()-trayectoria.size(); i++) {
-			for (int j = 0; j < getMatrizDistancias().size(); j++) {
-				if(!trayectoria.contains(j)) {
-					if (getMatrizDistancias().get(vertice).get(j) < minimo) {
-						minimo = getMatrizDistancias().get(vertice).get(j);
-						aux = j;
-					}
-				}
-			}
-			vertice = aux;
-			//System.out.println("vertice: " + vertice + " coste: " + minimo);
-			copiaTrayectoria.add(aux);
-			minimo = VariablesGlobales.MAXDISTANCE;
-		}
-		return (calcularCotaInferior(copiaTrayectoria));
 	}
 	/**
 	 * ramificar
@@ -99,12 +73,46 @@ public class RamifiacionPoda {
 		}
 	}
 	/**
-	 * getMatrizDistancias
+	 * calcularRestoTrayectoria
 	 */
-	public ArrayList<ArrayList<Double>> getMatrizDistancias() {
-		return cotaSuperior.getInfoProblema().getDistancias().getMatrizDistancias();
+	public double calcularRestoTrayectoria(ArrayList<Integer> trayectoria) {
+		double costePrim = 0.0;
+		int aux = 0;
+		double minimo = VariablesGlobales.MAXDISTANCE;
+		ArrayList<Integer> copiaTrayectoria = (ArrayList<Integer>) trayectoria.clone();
+		//quitar un bucle y enlazar ultimo nodo de copiatrayectoria para que sea el explorado
+		for (int i = 0; i <= getMatrizDistancias().size()-trayectoria.size(); i++) {
+			if(i < getMatrizDistancias().size()-trayectoria.size()) {
+				for (int j = 0; j < copiaTrayectoria.size(); j++) {
+					for(int k = 0; k < getMatrizDistancias().size(); k++) {
+						if(!copiaTrayectoria.contains(k)) {
+							if (getMatrizDistancias().get(j).get(k) < minimo) {
+								minimo = getMatrizDistancias().get(j).get(k);
+								aux = k;
+							}
+						}
+					}
+				}
+				costePrim += minimo;
+				copiaTrayectoria.add(aux);
+				minimo = VariablesGlobales.MAXDISTANCE;
+			}
+			else {
+				for (int j = 0; j < copiaTrayectoria.size(); j++) {
+					if (getMatrizDistancias().get(j).get(0) < minimo) {
+						minimo = getMatrizDistancias().get(j).get(0);
+						aux = j;
+					}
+				}
+				costePrim += minimo;
+				minimo = VariablesGlobales.MAXDISTANCE;
+			}
+			
+		}
+		double cotaInferior = calcularCotaInferior(trayectoria) + costePrim;
+		//System.out.println(cotaInferior);
+		return (cotaInferior);
 	}
-
 	/**
 	 * calcularValorObjetivoRecorridoActual
 	 */
@@ -118,14 +126,24 @@ public class RamifiacionPoda {
 				anterior = recorridoActual.get(i);
 				continue;
 			}
-			//System.out.println(getMatrizDistancias().get(anterior).get(recorridoActual.get(i)));
 			valorObjetivo += getMatrizDistancias().get(anterior).get(recorridoActual.get(i));
 			anterior = recorridoActual.get(i);
 		}
-		valorObjetivo += getMatrizDistancias().get(recorridoActual.get(recorridoActual.size()-1)).get(verticePartida);
+		//valorObjetivo += getMatrizDistancias().get(recorridoActual.get(recorridoActual.size()-1)).get(verticePartida);
 		return valorObjetivo;
 	}
-
+	/**
+	 * getMatrizDistancias
+	 */
+	public ArrayList<ArrayList<Double>> getMatrizDistancias() {
+		return cotaSuperior.getInfoProblema().getDistancias().getMatrizDistancias();
+	}
+	/**
+	 * getUltimoVerticeMejorTour
+	 */
+	public int getUltimoVerticeMejorTour() {
+		return cotaSuperior.getMejorTour().getTour().get(cotaSuperior.getMejorTour().getTour().size()-1);
+	}
 	/**
 	 * @return the cotaSuperior
 	 */
